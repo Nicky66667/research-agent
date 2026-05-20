@@ -119,4 +119,4 @@ def rag_query(query:str, top_k:int=5) -> str:
             f"Content:{r['text'][:600]}..."
         )
 
-    return "\n\n --- \n\n".join(formatted)
+    return "\n\n---\n\n".join(formatted)
