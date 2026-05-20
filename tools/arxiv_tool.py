@@ -2,7 +2,7 @@ import arxiv # access the arXiv paper database
 import httpx # HTTP client to make requests
 import tempfile
 from pathlib import Path # handle filesystem path handling
-from langChain_core.tools import tool
+from langchain_core.tools import tool
 from rag.pipeline import RAGPipeline
 
 # Share one RAGPipeline instance throughout the program lifecycle to avoid duplicate construction
@@ -28,7 +28,7 @@ def _download_and_ingest(paper, metadata: dict) -> int:
             # download PDF (set 30s time-out)
             response = httpx.get(
                 paper.pdf_url,
-                follow_redirect=True,
+                follow_redirects=True,
                 timeout=30
             )
 
@@ -92,13 +92,15 @@ def arxiv_search(query:str,max_results:int=3) -> str:
             f"Status:{chunk_count} chunks added to knowledge base"
         )
 
-        return "\n\n --- \n\n".join(summaries)
+    return "\n\n --- \n\n".join(summaries)
 
+@tool
 def rag_query(query:str, top_k:int=5) -> str:
     """
     Query the local knowledge base built from downloaded papers.
-    Use AFTER arxiv_search has ingested papers. Returns relevant
-    text chunks with source citations.
+    Use AFTER arxiv_search has ingested papers.
+
+    Returns relevant text chunks with source citations.
 
     Args:
         query: Question to search in the knowledge base
