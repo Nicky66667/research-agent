@@ -2,7 +2,7 @@ import pytest
 import tempfile # create temp files and dir
 import os
 from rag.chunker import RecursiveChunker
-from rag.pipeline import RAGPipline
+from rag.pipeline import RAGPipeline
 
 def test_chunk():
 
@@ -16,7 +16,7 @@ def test_chunk():
 
 def test_rag_pipeline():
     # Initialize RAG pipeline
-    rag = RAGPipline(collection_name="test_collection")
+    rag = RAGPipeline(collection_name="test_collection")
 
     # Test metadata
     metadata = {

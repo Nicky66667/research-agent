@@ -8,7 +8,7 @@ from langchain_openai import OpenAIEmbeddings
 from .chunker import RecursiveChunker
 from config.settings import CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL
 
-class RAGPipline:
+class RAGPipeline:
 
     def __init__(self,collection_name:str = "research_papers"):
         #  ChromaDB in‑memory client for dev
