@@ -25,7 +25,7 @@ def decompose_query(state:AgentState) -> dict:
     Return Updated State
     """
 
-    query = state["message"][-1].content # get the newest user question
+    query = state["messages"][-1].content # get the newest user question
     """
     state is something like
      {"message":[msg1,msg2,msg3]}
@@ -41,7 +41,7 @@ def decompose_query(state:AgentState) -> dict:
         data = json.loads(response.content) # JSON string to Python Dict
         sub_queries = data.get("sub_queries", [query]) # if output {}, return user question
 
-    except json.JSONDecoderError:
+    except json.JSONDecodeError:
         # LLMs sometimes fail to decompose/follow output formatting; fall back to the original query
         sub_queries = [query]
 
@@ -90,10 +90,7 @@ def agent_node(state:AgentState) -> dict:
         sub_queries = state.get("sub_queries", [])
 
         # Convert list to bullet-point text
-        sub_q_text = "\n".join([
-            f"- {query}"
-            for query in sub_queries
-        ])
+        sub_q_text = "\n".join([f"- {q}" for q in sub_queries])
 
         # Add sub-queries into system prompt
         system_content = (

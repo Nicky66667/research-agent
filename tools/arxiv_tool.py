@@ -64,7 +64,11 @@ def arxiv_search(query:str,max_results:int=3) -> str:
         sort_by = arxiv.SortCriterion.Relevance
     )
 
-    results = list(client.results(search)) # execute the search and collect the returned papers in list
+    # return messages if it fails
+    try:
+        results = list(client.results(search))
+    except Exception as e:
+        return f"Arxiv search temporarily unavailable: {str(e)}. Try again later or use web_search instead."
 
     if not results:
         return f"No papers found for query:{query}"
