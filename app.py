@@ -1,6 +1,8 @@
 import streamlit as st
 from langchain_core.messages import HumanMessage
 from agents import build_graph
+from tools.export import export_txt, export_docx, export_pdf
+from datetime import datetime
 
 """
 
@@ -115,6 +117,10 @@ if prompt := st.chat_input("Enter your research question:"):
                     "content":final_report
                 })
 
+                # save report into session_state for exporting
+                st.session_state.last_report = final_report
+                st.session_state.last_query = prompt
+
             else:
                 report_placeholder.warning(
                     "No report generated. Try a more specfic questiion."
@@ -124,6 +130,48 @@ if prompt := st.chat_input("Enter your research question:"):
             st.error(f"Error:{str(e)}") # show a concise red error banner
             st.exception(e)
             # print the full traceback
+
+
+# ── Export area (only shown when a report exists) ──────────────────────────────
+
+if st.session_state.get("last_report"):
+    st.divider()
+    st.subheader("Export Report")
+
+    report   = st.session_state.last_report
+    query    = st.session_state.get("last_query", "")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.download_button(
+            label="Download TXT",
+            data=export_txt(report, query),
+            file_name=f"report_{timestamp}.txt",
+            mime="text/plain",
+        )
+    with col2:
+        st.download_button(
+            label="Download DOCX",
+            data=export_docx(report, query),
+            file_name=f"report_{timestamp}.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+    with col3:
+        st.download_button(
+            label="Download PDF",
+            data=export_pdf(report, query),
+            file_name=f"report_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+    with col4:
+        if st.button("✕ Skip"):
+            # User doesn't want a file — clear the report from session state
+            # so the export area disappears without downloading anything
+            st.session_state.pop("last_report", None)
+            st.session_state.pop("last_query", None)
+            st.rerun()
 
 
 
