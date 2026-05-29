@@ -1,6 +1,6 @@
 # 🔬 AI Research Agent
 
-> Autonomous academic research assistant — input a question, get a structured report with citations.
+> Autonomous academic research assistant with easy use: input a question and output a structured report with citations.
 
 [![Live Demo](https://img.shields.io/badge/🤗-Live%20Demo-blue)](https://huggingface.co/spaces/YOUR_USERNAME/ai-research-agent)
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
@@ -9,7 +9,7 @@
 
 ## Demo
 
-![Demo GIF](src/demo.png)
+![Demo GIF](src/demo.gif)
 <!-- Record a short screen capture of a full research run and save it as assets/demo.gif -->
 
 ---
@@ -81,11 +81,11 @@ Open `http://localhost:8501` in your browser.
 ```
 research-agent/
 ├── app.py                  # Streamlit UI
-├── main.py                 # CLI entry point (for testing without UI)
+├── main.py                 # CLI entry point (testing agent without UI)
 ├── agents/
-│   ├── graph.py            # LangGraph workflow definition
-│   ├── nodes.py            # Individual node functions
-│   └── state.py            # Shared state schema
+│   ├── graph.py            # LangGraph workflow 
+│   ├── nodes.py            # node functions
+│   └── state.py            # Shared state 
 ├── tools/
 │   ├── arxiv_tool.py       # arXiv search + PDF download
 │   ├── rag_tool.py         # RAG query tool (empty for now)
@@ -99,24 +99,26 @@ research-agent/
 │   ├── settings.py         # global variables and model config
 │   └── prompts.py          # System and task prompts
 └── tests/
-    ├── ...
+    ├── test_agent.py
+    ├── test_export.py  
+    ├── test_rag.py  
+    └── test_tools.py  
 ```
 ---
 
 ## Tech Stack
 
-| Component | Choice | Why                                                          |
-|----------|--------|--------------------------------------------------------------|
-| Agent | LangGraph 0.2+ | Built-in state management, persistence, and streaming        |
-| LLM | GPT-4o-mini | Best cost and quality ratio                                  |
-| Embeddings | text-embedding-3-small | low cost with good retrieval quality                         |                                         |
-| Vector database | ChromaDB | Zero-config local setup                                      |
-| PDF parsing | PyMuPDF | Fast with reliable extraction |
-| Web search | Tavily | Clean, LLM-friendly snippets             |
-| UI | Streamlit | Fast Python → web demo workflow                              |
-| Export | python-docx + reportlab | Pure Python, Docker-friendly    |
+| Component | Choice | 
+|----------|--------|
+| Agent | LangGraph 0.2+ | 
+| LLM | GPT-4o-mini | 
+| Embeddings | text-embedding-3-small |                                    
+| Vector database | ChromaDB | 
+| PDF parsing | PyMuPDF | 
+| Web search | Tavily | 
+| UI | Streamlit | 
+| Export | python-docx + reportlab | 
 ---
-
 
 ## Running Tests
 

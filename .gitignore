@@ -6,4 +6,4 @@ __pycache__/
 memory.db
 /tmp/
 .idea/
-.pytest_cache/
+.pytest_cache/src/demo.png
